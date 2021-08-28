@@ -1,17 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
+
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchContacts } from "./redux/operation";
 
 import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import Filter from "./components/Filter/Filter";
 import "./App.css";
 import "modern-normalize/modern-normalize.css";
-function App({ contacts }) {
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
 
+export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
   return (
     <div>
       <h1 className="header">Phonebook</h1>
@@ -22,8 +26,3 @@ function App({ contacts }) {
     </div>
   );
 }
-const mapStateToProps = (state) => ({
-  contacts: state.contacts,
-});
-
-export default connect(mapStateToProps)(App);
